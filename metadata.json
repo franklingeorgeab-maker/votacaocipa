@@ -1,0 +1,6 @@
+{
+  "name": "Sistema Eleitoral CIPA - Urna Eletrônica NR-5",
+  "description": "Sistema completo para eleição da CIPA conforme NR-5/MTE com urna eletrônica estilo TSE, som característico, autenticação segura por crachá com LGPD, apuração em tempo real, auditoria e exportação PDF/Excel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
