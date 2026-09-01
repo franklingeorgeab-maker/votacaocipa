@@ -50,17 +50,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
   const navItems = [
     { id: 'voting', label: 'Cabine de Votação', icon: Vote, badge: 'TSE' },
     { id: 'results', label: 'Apuração & Resultados', icon: BarChart3 },
-    { id: 'candidates', label: 'Candidatos (CRUD)', icon: Users },
-    { id: 'company', label: 'Empresa & Pleito', icon: Building2 },
+    { id: 'candidates', label: 'Candidatos', icon: Users },
+    { id: 'company', label: 'Cadastro', icon: Building2 },
     { id: 'urnas', label: 'Urnas On-line', icon: Monitor },
     { id: 'voters', label: 'Eleitores & LGPD', icon: UserCheck },
     { id: 'audit', label: 'Auditoria MTE', icon: ShieldCheck },
     { id: 'reports', label: 'Relatórios Oficiais', icon: FileText },
   ];
-
-  const handleTestTseSound = () => {
-    tseAudio.playTSEConfirmationSound();
-  };
 
   const handleToggleSound = () => {
     const next = !muted;
@@ -123,17 +119,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
             <span className={`w-2 h-2 rounded-full ${summary.quorumReached ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
             <span>Quórum: {summary.turnoutPercentage}% ({summary.totalVotesCast}/{summary.totalVoters})</span>
           </div>
-
-          {/* Teste do Som da Urna TSE */}
-          <button
-            type="button"
-            onClick={handleTestTseSound}
-            className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl border border-slate-300 dark:border-slate-700 transition-colors cursor-pointer"
-            title="Testar Sinal Eletrônico Oficial da Urna TSE"
-          >
-            <Volume2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>Ouvir Som TSE</span>
-          </button>
 
           {/* Alternar Mudo / Som */}
           <button

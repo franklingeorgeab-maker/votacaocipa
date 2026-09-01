@@ -48,11 +48,11 @@ function AppContent() {
           <div className="flex items-center space-x-2">
             <ShieldCheck className="w-4 h-4 text-emerald-500" />
             <span className="font-semibold text-slate-700 dark:text-slate-300">
-              Sistema Eleitoral CIPA • Em Conformidade com a NR-5 / Portaria MTE & LGPD
+              Eleição CIPA
             </span>
           </div>
           <div className="text-[11px] text-slate-400">
-            Sigilo incondicional do voto • Urna Eletrônica Auditável com Sinal Sonoro TSE
+            Sigilo incondicional do voto • Urna Eletrônica Auditável
           </div>
         </div>
       </footer>

@@ -35,6 +35,9 @@ interface ElectionContextType {
   // Ações de Eleitores
   addVoter: (voter: Omit<Voter, 'id' | 'hasVoted' | 'votedAt' | 'receiptCode'>) => boolean;
   importVoters: (newVoters: Omit<Voter, 'id' | 'hasVoted'>[]) => number;
+  replaceVoters: (newVoters: Omit<Voter, 'id' | 'hasVoted'>[]) => number;
+  deleteVoter: (id: string) => boolean;
+  clearAllVoters: () => void;
   findVoterByBadge: (badgeNumber: string) => Voter | undefined;
 
   // Ações de Urna
@@ -481,11 +484,51 @@ export const ElectionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         }
         return [...prev, ...toAdd];
       });
-      addAuditLog('CADASTRO_EMPRESA', `Importação em lote de ${addedCount} eleitores/colaboradores aptos.`);
+      addAuditLog('CADASTRO_EMPRESA', `Importação em lote de ${addedCount} novos eleitores/colaboradores aptos.`);
       return addedCount;
     },
     [addAuditLog]
   );
+
+  const replaceVoters = useCallback(
+    (newVoters: Omit<Voter, 'id' | 'hasVoted'>[]): number => {
+      const seen = new Set<string>();
+      const list: Voter[] = [];
+      let count = 0;
+      for (const v of newVoters) {
+        const cleanBadge = v.badgeNumber.trim().toLowerCase();
+        if (cleanBadge && !seen.has(cleanBadge)) {
+          seen.add(cleanBadge);
+          list.push({
+            ...v,
+            id: `v_rep_${Date.now()}_${count}`,
+            hasVoted: false,
+          });
+          count++;
+        }
+      }
+      setVoters(list);
+      addAuditLog('CADASTRO_EMPRESA', `Lista de eleitores substituída por arquivo contendo ${count} colaboradores.`);
+      return count;
+    },
+    [addAuditLog]
+  );
+
+  const deleteVoter = useCallback(
+    (id: string): boolean => {
+      const voter = voters.find((v) => v.id === id);
+      if (!voter) return false;
+      setVoters((prev) => prev.filter((v) => v.id !== id));
+      addAuditLog('CADASTRO_EMPRESA', `Colaborador removido da lista de eleitores: Crachá ${voter.badgeNumber} - ${voter.name}`);
+      return true;
+    },
+    [voters, addAuditLog]
+  );
+
+  const clearAllVoters = useCallback(() => {
+    setVoters([]);
+    addAuditLog('CADASTRO_EMPRESA', 'Todos os eleitores cadastrados foram removidos.');
+  }, [addAuditLog]);
 
   const findVoterByBadge = useCallback(
     (badgeNumber: string): Voter | undefined => {
@@ -785,6 +828,9 @@ export const ElectionProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         deleteCandidate,
         addVoter,
         importVoters,
+        replaceVoters,
+        deleteVoter,
+        clearAllVoters,
         findVoterByBadge,
         setActiveUrnaId,
         openUrna,

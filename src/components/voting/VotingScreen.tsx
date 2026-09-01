@@ -140,9 +140,6 @@ export const VotingScreen: React.FC = () => {
     setStep('badge_input');
   };
 
-  // Crachás de exemplo para teste rápido
-  const unvotedSample = voters.filter((v) => !v.hasVoted).slice(0, 5);
-
   return (
     <div
       className={
@@ -268,28 +265,6 @@ export const VotingScreen: React.FC = () => {
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </form>
-
-              {/* Crachás de teste rápido */}
-              {unvotedSample.length > 0 && (
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-                  <p className="text-[11px] text-slate-400 mb-2">Crachás rápidos para teste:</p>
-                  <div className="flex flex-wrap justify-center gap-1.5">
-                    {unvotedSample.map((v) => (
-                      <button
-                        key={v.id}
-                        type="button"
-                        onClick={() => {
-                          setBadgeInput(v.badgeNumber);
-                          setError(null);
-                        }}
-                        className="px-2.5 py-1 text-xs font-mono font-bold bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors cursor-pointer text-slate-700 dark:text-slate-300"
-                      >
-                        {v.badgeNumber} ({v.name.split(' ')[0]})
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </motion.div>
           )}
 
